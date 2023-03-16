@@ -8,6 +8,7 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -18,14 +19,14 @@ public class ContasBancariasStepConfig {
     @Bean
     public Step contasBancariasStep(ItemReader<Cliente> contasBancariasReader,
                                     ItemProcessor<Cliente, Conta> contasBancariasProcessor,
-                                    ItemWriter<Conta> contasBancariasWriter,
+                                    CompositeItemWriter<Conta> compositeItemWriter,
                                     JobRepository jobRepository,
                                     PlatformTransactionManager transactionManager){
         return new StepBuilder("contasBancariasStep",jobRepository)
-                .<Cliente,Conta> chunk(100)
+                .<Cliente,Conta> chunk(10)
                 .reader(contasBancariasReader)
                 .processor(contasBancariasProcessor)
-                .writer(contasBancariasWriter)
+                .writer(compositeItemWriter)
                 .faultTolerant()
                 .skip(Exception.class)
                 .skipLimit(2)
