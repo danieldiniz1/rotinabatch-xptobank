@@ -15,6 +15,7 @@ public class ContasBancariasWriterConfig {
 
     @Bean
     public ItemWriter<Conta> contasBancariasWriter(){
+
         return items -> items.forEach(cliente -> LOGGER.info(cliente));
     }
 }
