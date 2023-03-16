@@ -22,7 +22,7 @@ public class ContasBancariasStepConfig {
                                     JobRepository jobRepository,
                                     PlatformTransactionManager transactionManager){
         return new StepBuilder("contasBancariasStep",jobRepository)
-                .<Cliente,Conta> chunk(1)
+                .<Cliente,Conta> chunk(100)
                 .reader(contasBancariasReader)
                 .processor(contasBancariasProcessor)
                 .writer(contasBancariasWriter)
