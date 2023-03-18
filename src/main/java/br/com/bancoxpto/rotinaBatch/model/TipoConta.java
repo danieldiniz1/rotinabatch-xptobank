@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 
 public enum TipoConta {
 
-    PRATA,OURO,PLATINA,DIAMANTE;
+    PRATA,OURO,PLATINA,DIAMANTE,INVALIDA;
 
     public static TipoConta fromFaixaSalarial(BigDecimal faixaSalarial){
+        if (faixaSalarial == null)
+            return INVALIDA;
         if (BigDecimal.valueOf(3000).compareTo(faixaSalarial) == 1)
             return PRATA;
         else if (BigDecimal.valueOf(5000).compareTo(faixaSalarial) == 1) {
